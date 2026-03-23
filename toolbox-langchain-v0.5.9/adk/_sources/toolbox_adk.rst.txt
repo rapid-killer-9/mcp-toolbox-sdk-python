@@ -1,0 +1,53 @@
+toolbox\_adk package
+====================
+
+Submodules
+----------
+
+toolbox\_adk.client module
+--------------------------
+
+.. automodule:: toolbox_adk.client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_adk.credentials module
+-------------------------------
+
+.. automodule:: toolbox_adk.credentials
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_adk.tool module
+------------------------
+
+.. automodule:: toolbox_adk.tool
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_adk.toolset module
+---------------------------
+
+.. automodule:: toolbox_adk.toolset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_adk.version module
+---------------------------
+
+.. automodule:: toolbox_adk.version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: toolbox_adk
+   :members:
+   :undoc-members:
+   :show-inheritance:

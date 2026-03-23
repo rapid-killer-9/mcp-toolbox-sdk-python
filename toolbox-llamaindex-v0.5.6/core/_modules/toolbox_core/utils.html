@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toolbox_core.utils &mdash; Toolbox core (toolbox-llamaindex-v0.5.6) toolbox-llamaindex-v0.5.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=3b96a006"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/js/versions.js?v=f77c4c83"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Toolbox core (toolbox-llamaindex-v0.5.6)
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Toolbox core (toolbox-llamaindex-v0.5.6)</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">toolbox_core.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for toolbox_core.utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2025 Google LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Awaitable</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">create_model</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">toolbox_core.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSchema</span>
+
+
+<div class="viewcode-block" id="create_func_docstring">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.utils.create_func_docstring">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_func_docstring</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ParameterSchema</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert tool description and params into its function docstring&quot;&quot;&quot;</span>
+    <span class="n">docstring</span> <span class="o">=</span> <span class="n">description</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">params</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">docstring</span>
+    <span class="n">docstring</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Args:&quot;</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">annotation</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">to_param</span><span class="p">()</span><span class="o">.</span><span class="n">annotation</span>
+        <span class="n">docstring</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">annotation</span><span class="p">))</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">docstring</span></div>
+
+
+
+<div class="viewcode-block" id="warn_if_http_and_headers">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.utils.warn_if_http_and_headers">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">warn_if_http_and_headers</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Logs a warning if the url uses HTTP and sensitive headers are present.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">headers</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;This connection is using HTTP. To prevent credential exposure, please ensure all communication is sent over HTTPS.&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="identify_auth_requirements">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.utils.identify_auth_requirements">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">identify_auth_requirements</span><span class="p">(</span>
+    <span class="n">req_authn_params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">req_authz_tokens</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">auth_service_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identifies authentication parameters and authorization tokens that are still</span>
+<span class="sd">    required because they are not covered by the provided `auth_service_names`.</span>
+<span class="sd">    Also returns a set of all authentication/authorization services from</span>
+<span class="sd">    `auth_service_names` that were found to be matching.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        req_authn_params: A mapping of parameter names to lists of required</span>
+<span class="sd">            authentication services for those parameters.</span>
+<span class="sd">        req_authz_tokens: A list of strings representing all authorization</span>
+<span class="sd">            tokens that are required to invoke the current tool.</span>
+<span class="sd">        auth_service_names: An iterable of authentication/authorization service</span>
+<span class="sd">            names for which token getters are available.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple containing:</span>
+<span class="sd">            - required_authn_params: A new dictionary representing the subset of</span>
+<span class="sd">              required authentication parameters that are not covered by the</span>
+<span class="sd">              provided `auth_service_names`.</span>
+<span class="sd">            - required_authz_tokens: A list of required authorization tokens if</span>
+<span class="sd">              no service name in `auth_service_names` matches any token in</span>
+<span class="sd">              `req_authz_tokens`. If any match is found, this list is empty.</span>
+<span class="sd">            - used_services: A set of service names from `auth_service_names`</span>
+<span class="sd">              that were found to satisfy at least one authentication parameter&#39;s</span>
+<span class="sd">              requirements or matched one of the `req_authz_tokens`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">required_authn_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">used_services</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># find which of the required authn params are covered by available services.</span>
+    <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">services</span> <span class="ow">in</span> <span class="n">req_authn_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+        <span class="c1"># if we don&#39;t have a token_getter for any of the services required by the param,</span>
+        <span class="c1"># the param is still required</span>
+        <span class="n">matched_authn_services</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">services</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">auth_service_names</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">matched_authn_services</span><span class="p">:</span>
+            <span class="n">used_services</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">matched_authn_services</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">required_authn_params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">services</span>
+
+    <span class="c1"># find which of the required authz tokens are covered by available services.</span>
+    <span class="n">matched_authz_services</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">auth_service_names</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">req_authz_tokens</span><span class="p">]</span>
+    <span class="n">required_authz_tokens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># If a match is found, authorization is met (no remaining required tokens).</span>
+    <span class="c1"># Otherwise, all `req_authz_tokens` are still required. (Handles empty</span>
+    <span class="c1"># `req_authz_tokens` correctly, resulting in no required tokens).</span>
+    <span class="k">if</span> <span class="n">matched_authz_services</span><span class="p">:</span>
+        <span class="n">used_services</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">matched_authz_services</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">required_authz_tokens</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">req_authz_tokens</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">required_authn_params</span><span class="p">,</span> <span class="n">required_authz_tokens</span><span class="p">,</span> <span class="n">used_services</span></div>
+
+
+
+<div class="viewcode-block" id="params_to_pydantic_model">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.utils.params_to_pydantic_model">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">params_to_pydantic_model</span><span class="p">(</span>
+    <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ParameterSchema</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts the given parameters to a Pydantic BaseModel class.&quot;&quot;&quot;</span>
+    <span class="n">field_definitions</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+
+        <span class="c1"># Determine the default value based on the &#39;required&#39; flag and the &#39;default&#39; field.</span>
+        <span class="c1"># &#39;...&#39; (Ellipsis) signifies a required field in Pydantic.</span>
+        <span class="c1"># If a default value is provided in the schema, it should be used.</span>
+        <span class="n">default_value</span> <span class="o">=</span> <span class="o">...</span> <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">required</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">has_default</span><span class="p">:</span>
+            <span class="n">default_value</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">default</span>
+
+        <span class="n">field_definitions</span><span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+            <span class="n">Any</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="n">field</span><span class="o">.</span><span class="n">to_param</span><span class="p">()</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span>
+                <span class="n">Field</span><span class="p">(</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">field</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">default</span><span class="o">=</span><span class="n">default_value</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="o">**</span><span class="n">field_definitions</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="resolve_value">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.utils.resolve_value">[docs]</a>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">resolve_value</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">Any</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Asynchronously or synchronously resolves a given source to its value.</span>
+
+<span class="sd">    If the `source` is a coroutine function, it will be awaited.</span>
+<span class="sd">    If the `source` is a regular callable, it will be called.</span>
+<span class="sd">    Otherwise (if it&#39;s not a callable), the `source` itself is returned directly.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source: The value, a callable returning a value, or a callable</span>
+<span class="sd">                returning an awaitable value.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The resolved value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">source</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">source</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">source</span></div>
+
+
+
+<div class="viewcode-block" id="validate_unused_requirements">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.utils.validate_unused_requirements">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_unused_requirements</span><span class="p">(</span>
+    <span class="n">provided_auth_keys</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">provided_bound_keys</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">used_auth_keys</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">used_bound_keys</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">is_toolset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">target_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validates that no provided authentication tokens or bound parameters went unused.</span>
+<span class="sd">    Raises a ValueError if any unused requirements are found, formatted appropriately</span>
+<span class="sd">    for either a single tool or a full toolset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">unused_auth</span> <span class="o">=</span> <span class="n">provided_auth_keys</span> <span class="o">-</span> <span class="n">used_auth_keys</span>
+    <span class="n">unused_bound</span> <span class="o">=</span> <span class="n">provided_bound_keys</span> <span class="o">-</span> <span class="n">used_bound_keys</span>
+
+    <span class="k">if</span> <span class="n">unused_auth</span> <span class="ow">or</span> <span class="n">unused_bound</span><span class="p">:</span>
+        <span class="n">error_messages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">unused_auth</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_toolset</span><span class="p">:</span>
+                <span class="n">error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;unused auth tokens could not be applied to any tool: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unused_auth</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unused auth tokens: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unused_auth</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">unused_bound</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_toolset</span><span class="p">:</span>
+                <span class="n">error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;unused bound parameters could not be applied to any tool: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unused_bound</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;unused bound parameters: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unused_bound</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="n">final_target_type</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">target_type</span> <span class="k">if</span> <span class="n">target_type</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;toolset&quot;</span> <span class="k">if</span> <span class="n">is_toolset</span> <span class="k">else</span> <span class="s2">&quot;tool&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Validation failed for </span><span class="si">{</span><span class="n">final_target_type</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="s1">&#39;; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_messages</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

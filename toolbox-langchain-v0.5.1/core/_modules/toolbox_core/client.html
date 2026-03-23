@@ -1,0 +1,483 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toolbox_core.client &mdash; Toolbox core (toolbox-langchain-v0.5.1) toolbox-langchain-v0.5.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=ab4e5740"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/js/versions.js?v=f77c4c83"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Toolbox core (toolbox-langchain-v0.5.1)
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Toolbox core (toolbox-langchain-v0.5.1)</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">toolbox_core.client</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for toolbox_core.client</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2025 Google LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProxyType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">aiohttp</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientSession</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.itransport</span><span class="w"> </span><span class="kn">import</span> <span class="n">ITransport</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.mcp_transport</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">McpHttpTransportV20241105</span><span class="p">,</span>
+    <span class="n">McpHttpTransportV20250326</span><span class="p">,</span>
+    <span class="n">McpHttpTransportV20250618</span><span class="p">,</span>
+    <span class="n">McpHttpTransportV20251125</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">ToolSchema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tool</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolboxTool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">identify_auth_requirements</span><span class="p">,</span>
+    <span class="n">resolve_value</span><span class="p">,</span>
+    <span class="n">validate_unused_requirements</span><span class="p">,</span>
+    <span class="n">warn_if_http_and_headers</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="ToolboxClient">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.client.ToolboxClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolboxClient</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An asynchronous client for interacting with a Toolbox service.</span>
+
+<span class="sd">    Provides methods to discover and load tools defined by a remote Toolbox</span>
+<span class="sd">    service endpoint. It manages an underlying `aiohttp.ClientSession`, if one</span>
+<span class="sd">    is not provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__transport</span><span class="p">:</span> <span class="n">ITransport</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ClientSession</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_headers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="nb">str</span><span class="p">]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">protocol</span><span class="p">:</span> <span class="n">Protocol</span> <span class="o">=</span> <span class="n">Protocol</span><span class="o">.</span><span class="n">MCP</span><span class="p">,</span>
+        <span class="n">client_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the ToolboxClient.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            url: The base URL for the Toolbox service API (e.g., &quot;http://localhost:5000&quot;).</span>
+<span class="sd">            session: An optional existing `aiohttp.ClientSession` to use.</span>
+<span class="sd">                If None (default), a new session is created internally. Note that</span>
+<span class="sd">                if a session is provided, its lifecycle (including closing)</span>
+<span class="sd">                should typically be managed externally.</span>
+<span class="sd">            client_headers: Headers to include in each request sent through this</span>
+<span class="sd">            client.</span>
+<span class="sd">            protocol: The communication protocol to use.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">protocol</span> <span class="o">!=</span> <span class="n">Protocol</span><span class="o">.</span><span class="n">MCP_LATEST</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;A newer version of MCP (</span><span class="si">{</span><span class="n">Protocol</span><span class="o">.</span><span class="n">MCP_LATEST</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">) is available. &quot;</span>
+                <span class="s2">&quot;Please use Protocol.MCP_LATEST to use the latest features.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">match</span> <span class="n">protocol</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">Protocol</span><span class="o">.</span><span class="n">MCP_v20251125</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__transport</span> <span class="o">=</span> <span class="n">McpHttpTransportV20251125</span><span class="p">(</span>
+                    <span class="n">url</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">client_name</span><span class="p">,</span> <span class="n">client_version</span>
+                <span class="p">)</span>
+            <span class="k">case</span> <span class="n">Protocol</span><span class="o">.</span><span class="n">MCP_v20250618</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__transport</span> <span class="o">=</span> <span class="n">McpHttpTransportV20250618</span><span class="p">(</span>
+                    <span class="n">url</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">client_name</span><span class="p">,</span> <span class="n">client_version</span>
+                <span class="p">)</span>
+            <span class="k">case</span> <span class="n">Protocol</span><span class="o">.</span><span class="n">MCP_v20250326</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__transport</span> <span class="o">=</span> <span class="n">McpHttpTransportV20250326</span><span class="p">(</span>
+                    <span class="n">url</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">client_name</span><span class="p">,</span> <span class="n">client_version</span>
+                <span class="p">)</span>
+            <span class="k">case</span> <span class="n">Protocol</span><span class="o">.</span><span class="n">MCP_v20241105</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__transport</span> <span class="o">=</span> <span class="n">McpHttpTransportV20241105</span><span class="p">(</span>
+                    <span class="n">url</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">client_name</span><span class="p">,</span> <span class="n">client_version</span>
+                <span class="p">)</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported MCP protocol version: </span><span class="si">{</span><span class="n">protocol</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span> <span class="o">=</span> <span class="n">client_headers</span> <span class="k">if</span> <span class="n">client_headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">warn_if_http_and_headers</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__parse_tool</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">schema</span><span class="p">:</span> <span class="n">ToolSchema</span><span class="p">,</span>
+        <span class="n">auth_token_getters</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span>
+        <span class="p">],</span>
+        <span class="n">all_bound_params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">Any</span><span class="p">]</span>
+        <span class="p">],</span>
+        <span class="n">client_headers</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="nb">str</span><span class="p">]</span>
+        <span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ToolboxTool</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal helper to create a callable tool from its schema.&quot;&quot;&quot;</span>
+        <span class="c1"># sort into reg, authn, and bound params</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">authn_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bound_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">Any</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">authSources</span><span class="p">:</span>  <span class="c1"># authn parameter</span>
+                <span class="n">authn_params</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">authSources</span>
+            <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">all_bound_params</span><span class="p">:</span>  <span class="c1"># bound parameter</span>
+                <span class="n">bound_params</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_bound_params</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># regular parameter</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="n">authn_params</span><span class="p">,</span> <span class="n">authz_tokens</span><span class="p">,</span> <span class="n">used_auth_keys</span> <span class="o">=</span> <span class="n">identify_auth_requirements</span><span class="p">(</span>
+            <span class="n">authn_params</span><span class="p">,</span>
+            <span class="n">schema</span><span class="o">.</span><span class="n">authRequired</span><span class="p">,</span>
+            <span class="n">auth_token_getters</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="n">tool</span> <span class="o">=</span> <span class="n">ToolboxTool</span><span class="p">(</span>
+            <span class="n">transport</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__transport</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">schema</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="c1"># create a read-only values to prevent mutation</span>
+            <span class="n">params</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+            <span class="n">required_authn_params</span><span class="o">=</span><span class="n">MappingProxyType</span><span class="p">(</span><span class="n">authn_params</span><span class="p">),</span>
+            <span class="n">required_authz_tokens</span><span class="o">=</span><span class="n">authz_tokens</span><span class="p">,</span>
+            <span class="n">auth_service_token_getters</span><span class="o">=</span><span class="n">MappingProxyType</span><span class="p">(</span><span class="n">auth_token_getters</span><span class="p">),</span>
+            <span class="n">bound_params</span><span class="o">=</span><span class="n">MappingProxyType</span><span class="p">(</span><span class="n">bound_params</span><span class="p">),</span>
+            <span class="n">client_headers</span><span class="o">=</span><span class="n">MappingProxyType</span><span class="p">(</span><span class="n">client_headers</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">used_bound_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">bound_params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">tool</span><span class="p">,</span> <span class="n">used_auth_keys</span><span class="p">,</span> <span class="n">used_bound_keys</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enter the runtime context related to this client instance.</span>
+
+<span class="sd">        Allows the client to be used as an asynchronous context manager</span>
+<span class="sd">        (e.g., `async with ToolboxClient(...) as client:`).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self: The client instance itself.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exit the runtime context and close the internally managed session.</span>
+
+<span class="sd">        Allows the client to be used as an asynchronous context manager</span>
+<span class="sd">        (e.g., `async with ToolboxClient(...) as client:`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ToolboxClient.close">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.client.ToolboxClient.close">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronously closes the underlying client session. Doing so will cause</span>
+<span class="sd">        any tools created by this Client to cease to function.</span>
+
+<span class="sd">        If the session was provided externally during initialization, the caller</span>
+<span class="sd">        is responsible for its lifecycle.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__transport</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ToolboxClient.load_tool">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.client.ToolboxClient.load_tool">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">load_tool</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">auth_token_getters</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">bound_params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">Any</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolboxTool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronously loads a tool from the server.</span>
+
+<span class="sd">        Retrieves the schema for the specified tool from the Toolbox server and</span>
+<span class="sd">        returns a callable object (`ToolboxTool`) that can be used to invoke the</span>
+<span class="sd">        tool remotely.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: The unique name or identifier of the tool to load.</span>
+<span class="sd">            auth_token_getters: A mapping of authentication service names to</span>
+<span class="sd">                callables that return the corresponding authentication token.</span>
+<span class="sd">            bound_params: A mapping of parameter names to bind to specific values or</span>
+<span class="sd">                callables that are called to produce values as needed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ToolboxTool: A callable object representing the loaded tool, ready</span>
+<span class="sd">                for execution. The specific arguments and behavior of the callable</span>
+<span class="sd">                depend on the tool itself.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the loaded tool instance fails to utilize at least</span>
+<span class="sd">                one provided parameter or auth token (if any provided).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Resolve client headers</span>
+        <span class="n">resolved_headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="k">await</span> <span class="n">resolve_value</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="n">warn_if_http_and_headers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__transport</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">auth_token_getters</span><span class="p">)</span>
+
+        <span class="n">manifest</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__transport</span><span class="o">.</span><span class="n">tool_get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">resolved_headers</span><span class="p">)</span>
+
+        <span class="c1"># parse the provided definition to a tool</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">tools</span><span class="p">:</span>
+            <span class="c1"># TODO: Better exception</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tool &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; not found!&quot;</span><span class="p">)</span>
+        <span class="n">tool</span><span class="p">,</span> <span class="n">used_auth_keys</span><span class="p">,</span> <span class="n">used_bound_keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parse_tool</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">manifest</span><span class="o">.</span><span class="n">tools</span><span class="p">[</span><span class="n">name</span><span class="p">],</span>
+            <span class="n">auth_token_getters</span><span class="p">,</span>
+            <span class="n">bound_params</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">provided_auth_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">auth_token_getters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">provided_bound_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">bound_params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">validate_unused_requirements</span><span class="p">(</span>
+            <span class="n">provided_auth_keys</span><span class="p">,</span>
+            <span class="n">provided_bound_keys</span><span class="p">,</span>
+            <span class="n">used_auth_keys</span><span class="p">,</span>
+            <span class="n">used_bound_keys</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">is_toolset</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tool</span></div>
+
+
+<div class="viewcode-block" id="ToolboxClient.load_toolset">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.client.ToolboxClient.load_toolset">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">load_toolset</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">auth_token_getters</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">bound_params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">Any</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ToolboxTool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronously fetches a toolset and loads all tools defined within it.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Name of the toolset to load. If None, loads the default toolset.</span>
+<span class="sd">            auth_token_getters: A mapping of authentication service names to</span>
+<span class="sd">                callables that return the corresponding authentication token.</span>
+<span class="sd">            bound_params: A mapping of parameter names to bind to specific values or</span>
+<span class="sd">                callables that are called to produce values as needed.</span>
+<span class="sd">            strict: If True, raises an error if *any* loaded tool instance fails</span>
+<span class="sd">                to utilize all of the given parameters or auth tokens. (if any</span>
+<span class="sd">                provided). If False (default), raises an error only if a</span>
+<span class="sd">                user-provided parameter or auth token cannot be applied to *any*</span>
+<span class="sd">                loaded tool across the set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list[ToolboxTool]: A list of callables, one for each tool defined</span>
+<span class="sd">            in the toolset.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If validation fails based on the `strict` flag.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Resolve client headers</span>
+        <span class="n">original_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span>
+        <span class="n">resolved_headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">header_name</span><span class="p">:</span> <span class="k">await</span> <span class="n">resolve_value</span><span class="p">(</span><span class="n">original_headers</span><span class="p">[</span><span class="n">header_name</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">header_name</span> <span class="ow">in</span> <span class="n">original_headers</span>
+        <span class="p">}</span>
+
+        <span class="n">warn_if_http_and_headers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__transport</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">auth_token_getters</span><span class="p">)</span>
+
+        <span class="n">manifest</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__transport</span><span class="o">.</span><span class="n">tools_list</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">resolved_headers</span><span class="p">)</span>
+
+        <span class="n">tools</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ToolboxTool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">overall_used_auth_keys</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">overall_used_bound_params</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">provided_auth_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">auth_token_getters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">provided_bound_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">bound_params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="c1"># parse each tool&#39;s name and schema into a list of ToolboxTools</span>
+        <span class="k">for</span> <span class="n">tool_name</span><span class="p">,</span> <span class="n">schema</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">tool</span><span class="p">,</span> <span class="n">used_auth_keys</span><span class="p">,</span> <span class="n">used_bound_keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parse_tool</span><span class="p">(</span>
+                <span class="n">tool_name</span><span class="p">,</span>
+                <span class="n">schema</span><span class="p">,</span>
+                <span class="n">auth_token_getters</span><span class="p">,</span>
+                <span class="n">bound_params</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="n">validate_unused_requirements</span><span class="p">(</span>
+                    <span class="n">provided_auth_keys</span><span class="p">,</span>
+                    <span class="n">provided_bound_keys</span><span class="p">,</span>
+                    <span class="n">used_auth_keys</span><span class="p">,</span>
+                    <span class="n">used_bound_keys</span><span class="p">,</span>
+                    <span class="n">tool_name</span><span class="p">,</span>
+                    <span class="n">is_toolset</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">overall_used_auth_keys</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">used_auth_keys</span><span class="p">)</span>
+                <span class="n">overall_used_bound_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">used_bound_keys</span><span class="p">)</span>
+
+        <span class="n">validate_unused_requirements</span><span class="p">(</span>
+            <span class="n">provided_auth_keys</span><span class="p">,</span>
+            <span class="n">provided_bound_keys</span><span class="p">,</span>
+            <span class="n">overall_used_auth_keys</span><span class="p">,</span>
+            <span class="n">overall_used_bound_params</span><span class="p">,</span>
+            <span class="n">name</span> <span class="ow">or</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+            <span class="n">is_toolset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tools</span></div>
+
+
+<div class="viewcode-block" id="ToolboxClient.add_headers">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.client.ToolboxClient.add_headers">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span>
+        <span class="s2">&quot;Use the `client_headers` parameter in the ToolboxClient constructor instead.&quot;</span>
+    <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_headers</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">headers</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add headers to be included in each request sent through this client.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            headers: Headers to include in each request sent through this client.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If any of the headers are already registered in the client.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">existing_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">incoming_headers</span> <span class="o">=</span> <span class="n">headers</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="n">existing_headers</span> <span class="o">&amp;</span> <span class="n">incoming_headers</span>
+        <span class="k">if</span> <span class="n">duplicates</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Client header(s) `</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">duplicates</span><span class="p">)</span><span class="si">}</span><span class="s2">` already registered in the client.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">merged_headers</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__client_headers</span> <span class="o">=</span> <span class="n">merged_headers</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

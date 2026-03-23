@@ -1,0 +1,101 @@
+toolbox\_core package
+=====================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   toolbox_core.mcp_transport
+
+Submodules
+----------
+
+toolbox\_core.auth\_methods module
+----------------------------------
+
+.. automodule:: toolbox_core.auth_methods
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.client module
+---------------------------
+
+.. automodule:: toolbox_core.client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.itransport module
+-------------------------------
+
+.. automodule:: toolbox_core.itransport
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.protocol module
+-----------------------------
+
+.. automodule:: toolbox_core.protocol
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.sync\_client module
+---------------------------------
+
+.. automodule:: toolbox_core.sync_client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.sync\_tool module
+-------------------------------
+
+.. automodule:: toolbox_core.sync_tool
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.tool module
+-------------------------
+
+.. automodule:: toolbox_core.tool
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.toolbox\_transport module
+---------------------------------------
+
+.. automodule:: toolbox_core.toolbox_transport
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.utils module
+--------------------------
+
+.. automodule:: toolbox_core.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+toolbox\_core.version module
+----------------------------
+
+.. automodule:: toolbox_core.version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: toolbox_core
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toolbox_core.sync_tool &mdash; Toolbox core (toolbox-adk-v0.5.6) toolbox-adk-v0.5.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=31206fb5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/js/versions.js?v=f77c4c83"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Toolbox core (toolbox-adk-v0.5.6)
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Toolbox core (toolbox-adk-v0.5.6)</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">toolbox_core.sync_tool</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for toolbox_core.sync_tool</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2025 Google LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractEventLoop</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">Signature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span> <span class="n">Thread</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSchema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tool</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolboxTool</span>
+
+
+<div class="viewcode-block" id="ToolboxSyncTool">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.sync_tool.ToolboxSyncTool">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolboxSyncTool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A callable proxy object representing a specific tool on a remote Toolbox server.</span>
+
+<span class="sd">    Instances of this class behave like synchronous functions. When called, they</span>
+<span class="sd">    send a request to the corresponding tool&#39;s endpoint on the Toolbox server with</span>
+<span class="sd">    the provided arguments.</span>
+
+<span class="sd">    It utilizes Python&#39;s introspection features (`__name__`, `__doc__`,</span>
+<span class="sd">    `__signature__`, `__annotations__`) so that standard tools like `help()`</span>
+<span class="sd">    and `inspect` work as expected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">async_tool</span><span class="p">:</span> <span class="n">ToolboxTool</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">AbstractEventLoop</span><span class="p">,</span> <span class="n">thread</span><span class="p">:</span> <span class="n">Thread</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a callable that will trigger the tool invocation through the</span>
+<span class="sd">        Toolbox server.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            async_tool: An instance of the asynchronous ToolboxTool.</span>
+<span class="sd">            loop: The event loop used to run asynchronous tasks.</span>
+<span class="sd">            thread: The thread to run blocking operations in.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">async_tool</span><span class="p">,</span> <span class="n">ToolboxTool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;async_tool must be an instance of ToolboxTool&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span> <span class="o">=</span> <span class="n">async_tool</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__loop</span> <span class="o">=</span> <span class="n">loop</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__thread</span> <span class="o">=</span> <span class="n">thread</span>
+
+        <span class="c1"># NOTE: We cannot define __qualname__ as a @property here.</span>
+        <span class="c1"># Properties are designed to compute values dynamically when accessed on an *instance* (using &#39;self&#39;).</span>
+        <span class="c1"># However, Python needs the class&#39;s __qualname__ attribute to be a plain string</span>
+        <span class="c1"># *before* any instances exist, specifically when the &#39;class ToolboxSyncTool:&#39; statement</span>
+        <span class="c1"># itself is being processed during module import or class definition.</span>
+        <span class="c1"># Defining __qualname__ as a property leads to a TypeError because the class object needs</span>
+        <span class="c1"># a string value immediately, not a descriptor that evaluates later.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__qualname__</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__name__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="vm">__name__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="c1"># Standard Python object attributes like __doc__ are technically &quot;writable&quot;.</span>
+        <span class="c1"># But not defining a setter function makes this a read-only property.</span>
+        <span class="c1"># Mypy flags this issue in the type checks.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__signature__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Signature</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">__signature__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__annotations__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="c1"># Standard Python object attributes like __doc__ are technically &quot;writable&quot;.</span>
+        <span class="c1"># But not defining a setter function makes this a read-only property.</span>
+        <span class="c1"># Mypy flags this issue in the type checks.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="vm">__annotations__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">_description</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ParameterSchema</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">_params</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_bound_params</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">_bound_params</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_required_authn_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">_required_authn_params</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_required_authz_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">_required_authz_tokens</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_auth_service_token_getters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">_auth_service_token_getters</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_client_headers</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">_client_headers</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Synchronously calls the remote tool with the provided arguments.</span>
+
+<span class="sd">        Validates arguments against the tool&#39;s signature, then sends them</span>
+<span class="sd">        as a JSON payload in a POST request to the tool&#39;s invoke URL.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Positional arguments for the tool.</span>
+<span class="sd">            **kwargs: Keyword arguments for the tool.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The string result returned by the remote tool execution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">coro</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run_coroutine_threadsafe</span><span class="p">(</span><span class="n">coro</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ToolboxSyncTool.add_auth_token_getters">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.sync_tool.ToolboxSyncTool.add_auth_token_getters">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_auth_token_getters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">auth_token_getters</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span>
+        <span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ToolboxSyncTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers auth token getter functions that are used for AuthServices</span>
+<span class="sd">        when tools are invoked.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            auth_token_getters: A mapping of authentication service names to</span>
+<span class="sd">                callables that return the corresponding authentication token.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new ToolboxSyncTool instance with the specified authentication</span>
+<span class="sd">            token getters registered.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an auth source has already been registered either to</span>
+<span class="sd">                the tool or to the corresponding client.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_async_tool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">add_auth_token_getters</span><span class="p">(</span><span class="n">auth_token_getters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ToolboxSyncTool</span><span class="p">(</span><span class="n">new_async_tool</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ToolboxSyncTool.add_auth_token_getter">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.sync_tool.ToolboxSyncTool.add_auth_token_getter">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_auth_token_getter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">auth_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">get_id_token</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ToolboxSyncTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers an auth token getter function that is used for AuthService</span>
+<span class="sd">        when tools are invoked.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            auth_source: The name of the authentication source.</span>
+<span class="sd">            get_id_token: A function that returns the ID token.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new ToolboxSyncTool instance with the specified authentication</span>
+<span class="sd">            token getter registered.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the auth source has already been registered either to</span>
+<span class="sd">                the tool or to the corresponding client.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_auth_token_getters</span><span class="p">({</span><span class="n">auth_source</span><span class="p">:</span> <span class="n">get_id_token</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="ToolboxSyncTool.bind_params">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.sync_tool.ToolboxSyncTool.bind_params">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bind_params</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bound_params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">Any</span><span class="p">]</span>
+        <span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ToolboxSyncTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Binds parameters to values or callables that produce values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            bound_params: A mapping of parameter names to values or callables</span>
+<span class="sd">                that produce values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new ToolboxSyncTool instance with the specified parameters bound.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If a parameter is already bound or is not defined by the</span>
+<span class="sd">                tool&#39;s definition.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_async_tool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__async_tool</span><span class="o">.</span><span class="n">bind_params</span><span class="p">(</span><span class="n">bound_params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ToolboxSyncTool</span><span class="p">(</span><span class="n">new_async_tool</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ToolboxSyncTool.bind_param">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.sync_tool.ToolboxSyncTool.bind_param">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bind_param</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">param_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ToolboxSyncTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Binds a parameter to the value or callable that produce the value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param_name: The name of the bound parameter.</span>
+<span class="sd">            param_value: The value of the bound parameter, or a callable that</span>
+<span class="sd">                returns the value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new ToolboxSyncTool instance with the specified parameter bound.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the parameter is already bound or is not defined by</span>
+<span class="sd">                the tool&#39;s definition.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind_params</span><span class="p">({</span><span class="n">param_name</span><span class="p">:</span> <span class="n">param_value</span><span class="p">})</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

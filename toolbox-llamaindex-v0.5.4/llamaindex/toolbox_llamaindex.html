@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toolbox_llamaindex package &mdash; Toolbox llamaindex (toolbox-llamaindex-v0.5.4) toolbox-llamaindex-v0.5.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a816ae75"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/js/versions.js?v=f77c4c83"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Toolbox llamaindex (toolbox-llamaindex-v0.5.4)
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">toolbox_llamaindex package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-toolbox_llamaindex.async_client">toolbox_llamaindex.async_client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#toolbox_llamaindex.async_client.AsyncToolboxClient"><code class="docutils literal notranslate"><span class="pre">AsyncToolboxClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-toolbox_llamaindex.async_tools">toolbox_llamaindex.async_tools module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool"><code class="docutils literal notranslate"><span class="pre">AsyncToolboxTool</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-toolbox_llamaindex.client">toolbox_llamaindex.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#toolbox_llamaindex.client.ToolboxClient"><code class="docutils literal notranslate"><span class="pre">ToolboxClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-toolbox_llamaindex.tools">toolbox_llamaindex.tools module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool"><code class="docutils literal notranslate"><span class="pre">ToolboxTool</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-toolbox_llamaindex.version">toolbox_llamaindex.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-toolbox_llamaindex">Module contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#toolbox_llamaindex.ToolboxClient"><code class="docutils literal notranslate"><span class="pre">ToolboxClient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#toolbox_llamaindex.ToolboxTool"><code class="docutils literal notranslate"><span class="pre">ToolboxTool</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Toolbox llamaindex (toolbox-llamaindex-v0.5.4)</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">toolbox_llamaindex package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/toolbox_llamaindex.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="toolbox-llamaindex-package">
+<h1>toolbox_llamaindex package<a class="headerlink" href="#toolbox-llamaindex-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-toolbox_llamaindex.async_client">
+<span id="toolbox-llamaindex-async-client-module"></span><h2>toolbox_llamaindex.async_client module<a class="headerlink" href="#module-toolbox_llamaindex.async_client" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_client.AsyncToolboxClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">toolbox_llamaindex.async_client.</span></span><span class="sig-name descname"><span class="pre">AsyncToolboxClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClientSession</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Protocol</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Protocol.MCP_v20250618</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/async_client.html#AsyncToolboxClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_client.AsyncToolboxClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_client.AsyncToolboxClient.aload_tool">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aload_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_client.html#AsyncToolboxClient.aload_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_client.AsyncToolboxClient.aload_tool" title="Link to this definition"></a></dt>
+<dd><p>Loads the tool with the given tool name from the Toolbox service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> – The name of the tool to load.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tool loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_client.AsyncToolboxClient.aload_toolset">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aload_toolset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toolset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_client.html#AsyncToolboxClient.aload_toolset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_client.AsyncToolboxClient.aload_toolset" title="Link to this definition"></a></dt>
+<dd><p>Loads tools from the Toolbox service, optionally filtered by toolset
+name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>toolset_name</strong> – The name of the toolset to load. If not provided,
+all tools are loaded.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+<li><p><strong>strict</strong> – If True, raises an error if <em>any</em> loaded tool instance fails
+to utilize at least one provided parameter or auth token (if any
+provided). If False (default), raises an error only if a
+user-provided parameter or auth token cannot be applied to <em>any</em>
+loaded tool across the set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all tools loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_client.AsyncToolboxClient.close">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/async_client.html#AsyncToolboxClient.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_client.AsyncToolboxClient.close" title="Link to this definition"></a></dt>
+<dd><p>Close the underlying synchronous client.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_client.AsyncToolboxClient.load_tool">
+<span class="sig-name descname"><span class="pre">load_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_client.html#AsyncToolboxClient.load_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_client.AsyncToolboxClient.load_tool" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_client.AsyncToolboxClient.load_toolset">
+<span class="sig-name descname"><span class="pre">load_toolset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toolset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_client.html#AsyncToolboxClient.load_toolset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_client.AsyncToolboxClient.load_toolset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-toolbox_llamaindex.async_tools">
+<span id="toolbox-llamaindex-async-tools-module"></span><h2>toolbox_llamaindex.async_tools module<a class="headerlink" href="#module-toolbox_llamaindex.async_tools" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">toolbox_llamaindex.async_tools.</span></span><span class="sig-name descname"><span class="pre">AsyncToolboxTool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core_tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ToolboxTool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncBaseTool</span></code></p>
+<p>A subclass of LlamaIndex’s AsyncBaseTool that supports features specific to
+Toolbox, like bound parameters and authenticated tools.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.acall">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">acall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ToolOutput</span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool.acall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.acall" title="Link to this definition"></a></dt>
+<dd><p>The coroutine that invokes the tool with the given arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – The arguments to the tool.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the parsed JSON response from the tool
+invocation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token">
+<span class="sig-name descname"><span class="pre">add_auth_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_id_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool.add_auth_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token_getter">
+<span class="sig-name descname"><span class="pre">add_auth_token_getter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_id_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool.add_auth_token_getter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token_getter" title="Link to this definition"></a></dt>
+<dd><p>Registers a function to retrieve an ID token for a given authentication
+source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_source</strong> – The name of the authentication source.</p></li>
+<li><p><strong>get_id_token</strong> – A function that returns the ID token.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added auth token getter.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the provided auth parameter is already registered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token_getters">
+<span class="sig-name descname"><span class="pre">add_auth_token_getters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool.add_auth_token_getters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token_getters" title="Link to this definition"></a></dt>
+<dd><p>Registers functions to retrieve ID tokens for the corresponding
+authentication sources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>auth_token_getters</strong> – A dictionary of authentication source names to
+the functions that return corresponding ID token getters.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new AsyncToolboxTool instance that is a deep copy of the current
+instance, with added auth token getters.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If any of the provided auth parameters is already
+    registered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_tokens">
+<span class="sig-name descname"><span class="pre">add_auth_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool.add_auth_tokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_tokens" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.bind_param">
+<span class="sig-name descname"><span class="pre">bind_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool.bind_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.bind_param" title="Link to this definition"></a></dt>
+<dd><p>Registers a value or a function to retrieve the value for a given bound
+parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param_name</strong> – The name of the bound parameter.</p></li>
+<li><p><strong>param_value</strong> – The value of the bound parameter, or a callable that
+returns the value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added bound param.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the provided bound param is already bound.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.bind_params">
+<span class="sig-name descname"><span class="pre">bind_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool" title="toolbox_llamaindex.async_tools.AsyncToolboxTool"><span class="pre">AsyncToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool.bind_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.bind_params" title="Link to this definition"></a></dt>
+<dd><p>Registers values or functions to retrieve the value for the
+corresponding bound parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bound_params</strong> – A dictionary of the bound parameter name to the
+value or function of the bound value.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new AsyncToolboxTool instance that is a deep copy of the current
+instance, with added bound params.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If any of the provided bound params is already bound.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ToolOutput</span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/async_tools.html#AsyncToolboxTool.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.call" title="Link to this definition"></a></dt>
+<dd><p>This is the method that should be implemented by the tool developer.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="toolbox_llamaindex.async_tools.AsyncToolboxTool.metadata">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ToolMetadata</span></em><a class="headerlink" href="#toolbox_llamaindex.async_tools.AsyncToolboxTool.metadata" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-toolbox_llamaindex.client">
+<span id="toolbox-llamaindex-client-module"></span><h2>toolbox_llamaindex.client module<a class="headerlink" href="#module-toolbox_llamaindex.client" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="toolbox_llamaindex.client.ToolboxClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">toolbox_llamaindex.client.</span></span><span class="sig-name descname"><span class="pre">ToolboxClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Protocol</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Protocol.MCP_v20250618</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.client.ToolboxClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.client.ToolboxClient.aload_tool">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aload_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.aload_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.client.ToolboxClient.aload_tool" title="Link to this definition"></a></dt>
+<dd><p>Loads the tool with the given tool name from the Toolbox service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> – The name of the tool to load.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tool loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.client.ToolboxClient.aload_toolset">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aload_toolset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toolset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.aload_toolset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.client.ToolboxClient.aload_toolset" title="Link to this definition"></a></dt>
+<dd><p>Loads tools from the Toolbox service, optionally filtered by toolset
+name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>toolset_name</strong> – The name of the toolset to load. If not provided,
+all tools are loaded.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+<li><p><strong>strict</strong> – If True, raises an error if <em>any</em> loaded tool instance fails
+to utilize at least one provided parameter or auth token (if any
+provided). If False (default), raises an error only if a
+user-provided parameter or auth token cannot be applied to <em>any</em>
+loaded tool across the set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all tools loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.client.ToolboxClient.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.client.ToolboxClient.close" title="Link to this definition"></a></dt>
+<dd><p>Close the underlying synchronous client.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.client.ToolboxClient.load_tool">
+<span class="sig-name descname"><span class="pre">load_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.load_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.client.ToolboxClient.load_tool" title="Link to this definition"></a></dt>
+<dd><p>Loads the tool with the given tool name from the Toolbox service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> – The name of the tool to load.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tool loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.client.ToolboxClient.load_toolset">
+<span class="sig-name descname"><span class="pre">load_toolset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toolset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.load_toolset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.client.ToolboxClient.load_toolset" title="Link to this definition"></a></dt>
+<dd><p>Loads tools from the Toolbox service, optionally filtered by toolset
+name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>toolset_name</strong> – The name of the toolset to load. If not provided,
+all tools are loaded.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+<li><p><strong>strict</strong> – If True, raises an error if <em>any</em> loaded tool instance fails
+to utilize at least one provided parameter or auth token (if any
+provided). If False (default), raises an error only if a
+user-provided parameter or auth token cannot be applied to <em>any</em>
+loaded tool across the set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all tools loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-toolbox_llamaindex.tools">
+<span id="toolbox-llamaindex-tools-module"></span><h2>toolbox_llamaindex.tools module<a class="headerlink" href="#module-toolbox_llamaindex.tools" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">toolbox_llamaindex.tools.</span></span><span class="sig-name descname"><span class="pre">ToolboxTool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core_tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ToolboxSyncTool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncBaseTool</span></code></p>
+<p>A subclass of LlamaIndex’s AsyncBaseTool that supports features specific to
+Toolbox, like bound parameters and authenticated tools.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.acall">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">acall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ToolOutput</span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.acall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.acall" title="Link to this definition"></a></dt>
+<dd><p>This is the async version of the call method.
+Should also be implemented by the tool developer as an
+async-compatible implementation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.add_auth_token">
+<span class="sig-name descname"><span class="pre">add_auth_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_id_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.add_auth_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.add_auth_token" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.add_auth_token_getter">
+<span class="sig-name descname"><span class="pre">add_auth_token_getter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_id_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.add_auth_token_getter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.add_auth_token_getter" title="Link to this definition"></a></dt>
+<dd><p>Registers a function to retrieve an ID token for a given authentication
+source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_source</strong> – The name of the authentication source.</p></li>
+<li><p><strong>get_id_token</strong> – A function that returns the ID token.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added auth token getter.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the provided auth parameter is already registered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.add_auth_token_getters">
+<span class="sig-name descname"><span class="pre">add_auth_token_getters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.add_auth_token_getters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.add_auth_token_getters" title="Link to this definition"></a></dt>
+<dd><p>Registers functions to retrieve ID tokens for the corresponding
+authentication sources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>auth_token_getters</strong> – A dictionary of authentication source names to
+the functions that return corresponding ID token.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added auth token getters.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If any of the provided auth parameters is already
+    registered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.add_auth_tokens">
+<span class="sig-name descname"><span class="pre">add_auth_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.add_auth_tokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.add_auth_tokens" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.bind_param">
+<span class="sig-name descname"><span class="pre">bind_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.bind_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.bind_param" title="Link to this definition"></a></dt>
+<dd><p>Registers a value or a function to retrieve the value for a given bound
+parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param_name</strong> – The name of the bound parameter.</p></li>
+<li><p><strong>param_value</strong> – The value of the bound parameter, or a callable that
+returns the value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added bound param.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the provided bound param is already bound.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.bind_params">
+<span class="sig-name descname"><span class="pre">bind_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.bind_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.bind_params" title="Link to this definition"></a></dt>
+<dd><p>Registers values or functions to retrieve the value for the
+corresponding bound parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bound_params</strong> – A dictionary of the bound parameter name to the
+value or function of the bound value.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added bound params.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If any of the provided bound params is already bound.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ToolOutput</span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.call" title="Link to this definition"></a></dt>
+<dd><p>This is the method that should be implemented by the tool developer.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="toolbox_llamaindex.tools.ToolboxTool.metadata">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ToolMetadata</span></em><a class="headerlink" href="#toolbox_llamaindex.tools.ToolboxTool.metadata" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-toolbox_llamaindex.version">
+<span id="toolbox-llamaindex-version-module"></span><h2>toolbox_llamaindex.version module<a class="headerlink" href="#module-toolbox_llamaindex.version" title="Link to this heading"></a></h2>
+</section>
+<section id="module-toolbox_llamaindex">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-toolbox_llamaindex" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">toolbox_llamaindex.</span></span><span class="sig-name descname"><span class="pre">ToolboxClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Awaitable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Protocol</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Protocol.MCP_v20250618</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxClient.aload_tool">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aload_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.aload_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxClient.aload_tool" title="Link to this definition"></a></dt>
+<dd><p>Loads the tool with the given tool name from the Toolbox service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> – The name of the tool to load.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tool loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxClient.aload_toolset">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aload_toolset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toolset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.aload_toolset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxClient.aload_toolset" title="Link to this definition"></a></dt>
+<dd><p>Loads tools from the Toolbox service, optionally filtered by toolset
+name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>toolset_name</strong> – The name of the toolset to load. If not provided,
+all tools are loaded.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+<li><p><strong>strict</strong> – If True, raises an error if <em>any</em> loaded tool instance fails
+to utilize at least one provided parameter or auth token (if any
+provided). If False (default), raises an error only if a
+user-provided parameter or auth token cannot be applied to <em>any</em>
+loaded tool across the set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all tools loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxClient.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxClient.close" title="Link to this definition"></a></dt>
+<dd><p>Close the underlying synchronous client.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxClient.load_tool">
+<span class="sig-name descname"><span class="pre">load_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.load_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxClient.load_tool" title="Link to this definition"></a></dt>
+<dd><p>Loads the tool with the given tool name from the Toolbox service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> – The name of the tool to load.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tool loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxClient.load_toolset">
+<span class="sig-name descname"><span class="pre">load_toolset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toolset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/client.html#ToolboxClient.load_toolset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxClient.load_toolset" title="Link to this definition"></a></dt>
+<dd><p>Loads tools from the Toolbox service, optionally filtered by toolset
+name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>toolset_name</strong> – The name of the toolset to load. If not provided,
+all tools are loaded.</p></li>
+<li><p><strong>auth_token_getters</strong> – An optional mapping of authentication source
+names to functions that retrieve ID tokens.</p></li>
+<li><p><strong>auth_tokens</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>auth_headers</strong> – Deprecated. Use <cite>auth_token_getters</cite> instead.</p></li>
+<li><p><strong>bound_params</strong> – An optional mapping of parameter names to their
+bound values.</p></li>
+<li><p><strong>strict</strong> – If True, raises an error if <em>any</em> loaded tool instance fails
+to utilize at least one provided parameter or auth token (if any
+provided). If False (default), raises an error only if a
+user-provided parameter or auth token cannot be applied to <em>any</em>
+loaded tool across the set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all tools loaded from the Toolbox.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">toolbox_llamaindex.</span></span><span class="sig-name descname"><span class="pre">ToolboxTool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core_tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ToolboxSyncTool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncBaseTool</span></code></p>
+<p>A subclass of LlamaIndex’s AsyncBaseTool that supports features specific to
+Toolbox, like bound parameters and authenticated tools.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.acall">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">acall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ToolOutput</span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.acall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.acall" title="Link to this definition"></a></dt>
+<dd><p>This is the async version of the call method.
+Should also be implemented by the tool developer as an
+async-compatible implementation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.add_auth_token">
+<span class="sig-name descname"><span class="pre">add_auth_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_id_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.add_auth_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.add_auth_token" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.add_auth_token_getter">
+<span class="sig-name descname"><span class="pre">add_auth_token_getter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_id_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.add_auth_token_getter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.add_auth_token_getter" title="Link to this definition"></a></dt>
+<dd><p>Registers a function to retrieve an ID token for a given authentication
+source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>auth_source</strong> – The name of the authentication source.</p></li>
+<li><p><strong>get_id_token</strong> – A function that returns the ID token.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added auth token getter.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the provided auth parameter is already registered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.add_auth_token_getters">
+<span class="sig-name descname"><span class="pre">add_auth_token_getters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_token_getters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.add_auth_token_getters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.add_auth_token_getters" title="Link to this definition"></a></dt>
+<dd><p>Registers functions to retrieve ID tokens for the corresponding
+authentication sources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>auth_token_getters</strong> – A dictionary of authentication source names to
+the functions that return corresponding ID token.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added auth token getters.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If any of the provided auth parameters is already
+    registered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.add_auth_tokens">
+<span class="sig-name descname"><span class="pre">add_auth_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.add_auth_tokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.add_auth_tokens" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.bind_param">
+<span class="sig-name descname"><span class="pre">bind_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.bind_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.bind_param" title="Link to this definition"></a></dt>
+<dd><p>Registers a value or a function to retrieve the value for a given bound
+parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param_name</strong> – The name of the bound parameter.</p></li>
+<li><p><strong>param_value</strong> – The value of the bound parameter, or a callable that
+returns the value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added bound param.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the provided bound param is already bound.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.bind_params">
+<span class="sig-name descname"><span class="pre">bind_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#toolbox_llamaindex.tools.ToolboxTool" title="toolbox_llamaindex.tools.ToolboxTool"><span class="pre">ToolboxTool</span></a></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.bind_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.bind_params" title="Link to this definition"></a></dt>
+<dd><p>Registers values or functions to retrieve the value for the
+corresponding bound parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bound_params</strong> – A dictionary of the bound parameter name to the
+value or function of the bound value.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new ToolboxTool instance that is a deep copy of the current
+instance, with added bound params.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If any of the provided bound params is already bound.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ToolOutput</span></span></span><a class="reference internal" href="_modules/toolbox_llamaindex/tools.html#ToolboxTool.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.call" title="Link to this definition"></a></dt>
+<dd><p>This is the method that should be implemented by the tool developer.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="toolbox_llamaindex.ToolboxTool.metadata">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ToolMetadata</span></em><a class="headerlink" href="#toolbox_llamaindex.ToolboxTool.metadata" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

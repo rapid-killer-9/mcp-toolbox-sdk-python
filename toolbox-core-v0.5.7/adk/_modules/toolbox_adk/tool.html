@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toolbox_adk.tool &mdash; Toolbox adk (toolbox-core-v0.5.7) toolbox-core-v0.5.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=ebbe390a"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/js/versions.js?v=f77c4c83"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Toolbox adk (toolbox-core-v0.5.7)
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Toolbox adk (toolbox-core-v0.5.7)</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">toolbox_adk.tool</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for toolbox_adk.tool</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2026 Google LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">google.adk.auth.exchanger.oauth2_credential_exchanger</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">oauth2_credential_exchanger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">google.adk.auth.oauth2_credential_util</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">oauth2_credential_util</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">toolbox_core</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.openapi.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">OAuth2</span><span class="p">,</span>
+    <span class="n">OAuthFlowAuthorizationCode</span><span class="p">,</span>
+    <span class="n">OAuthFlows</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.adk.auth.auth_credential</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AuthCredential</span><span class="p">,</span>
+    <span class="n">AuthCredentialTypes</span><span class="p">,</span>
+    <span class="n">OAuth2Auth</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.adk.auth.auth_tool</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.adk.tools.base_tool</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.adk.tools.tool_context</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.genai.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FunctionDeclaration</span><span class="p">,</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">toolbox_core.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdditionalPropertiesSchema</span><span class="p">,</span> <span class="n">ParameterSchema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">toolbox_core.tool</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolboxTool</span> <span class="k">as</span> <span class="n">CoreToolboxTool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">override</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">USER_TOKEN_CONTEXT_VAR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.credentials</span><span class="w"> </span><span class="kn">import</span> <span class="n">CredentialConfig</span><span class="p">,</span> <span class="n">CredentialType</span>
+
+<span class="c1"># --- Monkey Patch ADK OAuth2 Exchange to Retain ID Tokens ---</span>
+<span class="c1"># Google&#39;s ID Token is required by MCP Toolbox but ADK&#39;s `update_credential_with_tokens` natively drops the `id_token`.</span>
+<span class="c1"># TODO(id_token): Remove this monkey patch once the PR https://github.com/google/adk-python/pull/4402 is merged.</span>
+<span class="n">_orig_update_cred</span> <span class="o">=</span> <span class="n">oauth2_credential_util</span><span class="o">.</span><span class="n">update_credential_with_tokens</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_patched_update_credential_with_tokens</span><span class="p">(</span><span class="n">auth_credential</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+    <span class="n">_orig_update_cred</span><span class="p">(</span><span class="n">auth_credential</span><span class="p">,</span> <span class="n">tokens</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tokens</span> <span class="ow">and</span> <span class="s2">&quot;id_token&quot;</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="ow">and</span> <span class="n">auth_credential</span> <span class="ow">and</span> <span class="n">auth_credential</span><span class="o">.</span><span class="n">oauth2</span><span class="p">:</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">auth_credential</span><span class="o">.</span><span class="n">oauth2</span><span class="p">,</span> <span class="s2">&quot;id_token&quot;</span><span class="p">,</span> <span class="n">tokens</span><span class="p">[</span><span class="s2">&quot;id_token&quot;</span><span class="p">])</span>
+
+
+<span class="n">oauth2_credential_util</span><span class="o">.</span><span class="n">update_credential_with_tokens</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">_patched_update_credential_with_tokens</span>
+<span class="p">)</span>
+<span class="n">oauth2_credential_exchanger</span><span class="o">.</span><span class="n">update_credential_with_tokens</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">_patched_update_credential_with_tokens</span>
+<span class="p">)</span>
+<span class="c1"># -------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="ToolboxTool">
+<a class="viewcode-back" href="../../toolbox_adk.html#toolbox_adk.tool.ToolboxTool">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolboxTool</span><span class="p">(</span><span class="n">BaseTool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A tool that delegates to a remote Toolbox tool, integrated with ADK.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">core_tool</span><span class="p">:</span> <span class="n">CoreToolboxTool</span><span class="p">,</span>
+        <span class="n">auth_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CredentialConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">adk_token_getters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            core_tool: The underlying toolbox_core.py tool instance.</span>
+<span class="sd">            auth_config: Credential configuration to handle interactive flows.</span>
+<span class="sd">            adk_token_getters: Tool-specific auth token getters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We act as a proxy.</span>
+        <span class="c1"># We need to extract metadata from the core tool to satisfy BaseTool&#39;s contract.</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">core_tool</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Core tool </span><span class="si">{</span><span class="n">core_tool</span><span class="si">}</span><span class="s2"> must have a valid __name__&quot;</span><span class="p">)</span>
+
+        <span class="n">description</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">core_tool</span><span class="p">,</span> <span class="s2">&quot;__doc__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">description</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Core tool </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must have a valid __doc__ (description)&quot;</span>
+            <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+            <span class="c1"># Pass empty custom_metadata as it is not currently used</span>
+            <span class="n">custom_metadata</span><span class="o">=</span><span class="p">{},</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span> <span class="o">=</span> <span class="n">core_tool</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span> <span class="o">=</span> <span class="n">auth_config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_adk_token_getters</span> <span class="o">=</span> <span class="n">adk_token_getters</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_param_type_to_schema_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
+        <span class="n">type_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">Type</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
+            <span class="s2">&quot;integer&quot;</span><span class="p">:</span> <span class="n">Type</span><span class="o">.</span><span class="n">INTEGER</span><span class="p">,</span>
+            <span class="s2">&quot;float&quot;</span><span class="p">:</span> <span class="n">Type</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span>
+            <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">Type</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span>
+            <span class="s2">&quot;boolean&quot;</span><span class="p">:</span> <span class="n">Type</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">,</span>
+            <span class="s2">&quot;array&quot;</span><span class="p">:</span> <span class="n">Type</span><span class="o">.</span><span class="n">ARRAY</span><span class="p">,</span>
+            <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="n">Type</span><span class="o">.</span><span class="n">OBJECT</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">type_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param_type</span><span class="p">,</span> <span class="n">Type</span><span class="o">.</span><span class="n">STRING</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Schema</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Builds a Schema from a parameter.&quot;&quot;&quot;</span>
+        <span class="n">param_type</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">)</span>
+        <span class="n">schema_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_type_to_schema_type</span><span class="p">(</span><span class="n">param_type</span><span class="p">)</span>
+
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">required</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">schema_items</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">schema_additional_properties</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">schema_type</span> <span class="o">==</span> <span class="n">Type</span><span class="o">.</span><span class="n">ARRAY</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+                <span class="n">schema_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_schema</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">schema_type</span> <span class="o">==</span> <span class="n">Type</span><span class="o">.</span><span class="n">OBJECT</span><span class="p">:</span>
+            <span class="n">nested_properties</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;properties&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nested_properties</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nested_properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">properties</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_schema</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;required&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                        <span class="n">required</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Schema</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">schema_type</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">properties</span><span class="o">=</span><span class="n">properties</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">required</span><span class="o">=</span><span class="n">required</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">items</span><span class="o">=</span><span class="n">schema_items</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@override</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_declaration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FunctionDeclaration</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the function declaration for the tool.&quot;&quot;&quot;</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">required</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># We do not use `google.genai.types.FunctionDeclaration.from_callable`</span>
+        <span class="c1"># here because it explicitly drops argument descriptions from the schema</span>
+        <span class="c1"># properties, lumping them all into the root description instead.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="p">,</span> <span class="s2">&quot;_params&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_params</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_params</span><span class="p">:</span>
+                <span class="n">properties</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_schema</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
+                    <span class="n">required</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Schema</span><span class="p">(</span>
+                <span class="nb">type</span><span class="o">=</span><span class="n">Type</span><span class="o">.</span><span class="n">OBJECT</span><span class="p">,</span>
+                <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">,</span>
+                <span class="n">required</span><span class="o">=</span><span class="n">required</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">properties</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">FunctionDeclaration</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="ToolboxTool.run_async">
+<a class="viewcode-back" href="../../toolbox_adk.html#toolbox_adk.tool.ToolboxTool.run_async">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_async</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">tool_context</span><span class="p">:</span> <span class="n">ToolContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="c1"># Check if USER_IDENTITY is configured</span>
+        <span class="n">reset_token</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">CredentialType</span><span class="o">.</span><span class="n">USER_IDENTITY</span><span class="p">:</span>
+            <span class="n">requires_auth</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_required_authn_params</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_required_authz_tokens</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">requires_auth</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span><span class="o">.</span><span class="n">client_id</span>
+                    <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span><span class="o">.</span><span class="n">client_secret</span>
+                <span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;USER_IDENTITY requires client_id and client_secret&quot;</span>
+                    <span class="p">)</span>
+
+                <span class="c1"># Construct ADK AuthConfig</span>
+                <span class="n">scopes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span><span class="o">.</span><span class="n">scopes</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;openid&quot;</span><span class="p">,</span> <span class="s2">&quot;profile&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span>
+                <span class="n">scope_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scopes</span><span class="p">}</span>
+
+                <span class="n">auth_config_adk</span> <span class="o">=</span> <span class="n">AuthConfig</span><span class="p">(</span>
+                    <span class="n">auth_scheme</span><span class="o">=</span><span class="n">OAuth2</span><span class="p">(</span>
+                        <span class="n">flows</span><span class="o">=</span><span class="n">OAuthFlows</span><span class="p">(</span>
+                            <span class="n">authorizationCode</span><span class="o">=</span><span class="n">OAuthFlowAuthorizationCode</span><span class="p">(</span>
+                                <span class="n">authorizationUrl</span><span class="o">=</span><span class="s2">&quot;https://accounts.google.com/o/oauth2/auth&quot;</span><span class="p">,</span>
+                                <span class="n">tokenUrl</span><span class="o">=</span><span class="s2">&quot;https://oauth2.googleapis.com/token&quot;</span><span class="p">,</span>
+                                <span class="n">scopes</span><span class="o">=</span><span class="n">scope_dict</span><span class="p">,</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">raw_auth_credential</span><span class="o">=</span><span class="n">AuthCredential</span><span class="p">(</span>
+                        <span class="n">auth_type</span><span class="o">=</span><span class="n">AuthCredentialTypes</span><span class="o">.</span><span class="n">OAUTH2</span><span class="p">,</span>
+                        <span class="n">oauth2</span><span class="o">=</span><span class="n">OAuth2Auth</span><span class="p">(</span>
+                            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+                            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Check if we already have credentials from a previous exchange</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># Try to load credential from credential service first (persists across sessions)</span>
+                    <span class="n">creds</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">tool_context</span><span class="o">.</span><span class="n">_invocation_context</span><span class="o">.</span><span class="n">credential_service</span><span class="p">:</span>
+                            <span class="n">creds</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tool_context</span><span class="o">.</span><span class="n">_invocation_context</span><span class="o">.</span><span class="n">credential_service</span><span class="o">.</span><span class="n">load_credential</span><span class="p">(</span>
+                                <span class="n">auth_config</span><span class="o">=</span><span class="n">auth_config_adk</span><span class="p">,</span>
+                                <span class="n">callback_context</span><span class="o">=</span><span class="n">tool_context</span><span class="p">,</span>
+                            <span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                        <span class="c1"># Credential service might not be initialized</span>
+                        <span class="k">pass</span>
+
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span><span class="p">:</span>
+                        <span class="c1"># Fallback to session state (get_auth_response returns AuthCredential if found)</span>
+                        <span class="n">creds</span> <span class="o">=</span> <span class="n">tool_context</span><span class="o">.</span><span class="n">get_auth_response</span><span class="p">(</span><span class="n">auth_config_adk</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">creds</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">oauth2</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">oauth2</span><span class="o">.</span><span class="n">access_token</span><span class="p">:</span>
+                        <span class="n">reset_token</span> <span class="o">=</span> <span class="n">USER_TOKEN_CONTEXT_VAR</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+                            <span class="n">creds</span><span class="o">.</span><span class="n">oauth2</span><span class="o">.</span><span class="n">access_token</span>
+                        <span class="p">)</span>
+
+                        <span class="c1"># Bind the token to the underlying core_tool so it constructs headers properly</span>
+                        <span class="n">needed_services</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                        <span class="k">for</span> <span class="n">requested_service</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_required_authn_params</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                        <span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_required_authz_tokens</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">requested_service</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                                <span class="n">needed_services</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">requested_service</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">needed_services</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">requested_service</span><span class="p">)</span>
+
+                        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">needed_services</span><span class="p">:</span>
+                            <span class="c1"># Only add if not already registered (prevents ValueError on duplicate params or subsequent runs)</span>
+                            <span class="k">if</span> <span class="p">(</span>
+                                <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="p">,</span> <span class="s2">&quot;_auth_token_getters&quot;</span><span class="p">)</span>
+                                <span class="ow">or</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_auth_token_getters</span>
+                            <span class="p">):</span>
+                                <span class="c1"># TODO(id_token): Uncomment this line and remove the `getattr` fallback below once PR https://github.com/google/adk-python/pull/4402 is merged.</span>
+                                <span class="c1"># self._core_tool = self._core_tool.add_auth_token_getter(s, lambda t=creds.oauth2.id_token or creds.oauth2.access_token: t)</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">add_auth_token_getter</span><span class="p">(</span>
+                                    <span class="n">s</span><span class="p">,</span>
+                                    <span class="k">lambda</span> <span class="n">t</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                                        <span class="n">creds</span><span class="o">.</span><span class="n">oauth2</span><span class="p">,</span>
+                                        <span class="s2">&quot;id_token&quot;</span><span class="p">,</span>
+                                        <span class="n">creds</span><span class="o">.</span><span class="n">oauth2</span><span class="o">.</span><span class="n">access_token</span><span class="p">,</span>
+                                    <span class="p">):</span> <span class="n">t</span><span class="p">,</span>
+                                <span class="p">)</span>
+                        <span class="c1"># Once we use it from get_auth_response, save it to the auth service for future use</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">tool_context</span><span class="o">.</span><span class="n">_invocation_context</span><span class="o">.</span><span class="n">credential_service</span><span class="p">:</span>
+                                <span class="n">auth_config_adk</span><span class="o">.</span><span class="n">exchanged_auth_credential</span> <span class="o">=</span> <span class="n">creds</span>
+                                <span class="k">await</span> <span class="n">tool_context</span><span class="o">.</span><span class="n">_invocation_context</span><span class="o">.</span><span class="n">credential_service</span><span class="o">.</span><span class="n">save_credential</span><span class="p">(</span>
+                                    <span class="n">auth_config</span><span class="o">=</span><span class="n">auth_config_adk</span><span class="p">,</span>
+                                    <span class="n">callback_context</span><span class="o">=</span><span class="n">tool_context</span><span class="p">,</span>
+                                <span class="p">)</span>
+                        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to save credential to service: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tool_context</span><span class="o">.</span><span class="n">request_credential</span><span class="p">(</span><span class="n">auth_config_adk</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="p">{</span>
+                            <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;OAuth2 Credentials required for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. A consent link has been generated for the user. Do NOT attempt to run this tool again until the user confirms they have logged in.&quot;</span>
+                        <span class="p">}</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;credential&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="n">e</span>
+
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Unexpected error in get_auth_response during User Identity (OAuth2) retrieval: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. &quot;</span>
+                        <span class="s2">&quot;Falling back to request_credential.&quot;</span><span class="p">,</span>
+                        <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">tool_context</span><span class="o">.</span><span class="n">request_credential</span><span class="p">(</span><span class="n">auth_config_adk</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">{</span>
+                        <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;OAuth2 Credentials required for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. A consent link has been generated for the user. Do NOT attempt to run this tool again until the user confirms they have logged in.&quot;</span>
+                    <span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adk_token_getters</span><span class="p">:</span>
+            <span class="c1"># Pre-filter toolset getters to avoid unused-token errors from the core tool.</span>
+            <span class="c1"># This deferred loop also enables dynamic 1-arity `tool_context` injection.</span>
+            <span class="n">needed_services</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">reqs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_required_authn_params</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">needed_services</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">reqs</span><span class="p">)</span>
+            <span class="n">needed_services</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">_required_authz_tokens</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">service</span><span class="p">,</span> <span class="n">getter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adk_token_getters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">needed_services</span><span class="p">:</span>
+                    <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">getter</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">bound_getter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="o">=</span><span class="n">getter</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">tool_context</span><span class="p">:</span> <span class="n">t</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">bound_getter</span> <span class="o">=</span> <span class="n">getter</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">add_auth_token_getter</span><span class="p">(</span>
+                        <span class="n">service</span><span class="p">,</span> <span class="n">bound_getter</span>
+                    <span class="p">)</span>
+
+        <span class="n">result</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Execute the core tool</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">e</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">reset_token</span><span class="p">:</span>
+                <span class="n">USER_TOKEN_CONTEXT_VAR</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">reset_token</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ToolboxTool.bind_params">
+<a class="viewcode-back" href="../../toolbox_adk.html#toolbox_adk.tool.ToolboxTool.bind_params">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bind_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounded_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;ToolboxTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Allows runtime binding of parameters, delegating to core tool.&quot;&quot;&quot;</span>
+        <span class="n">new_core_tool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_core_tool</span><span class="o">.</span><span class="n">bind_params</span><span class="p">(</span><span class="n">bounded_params</span><span class="p">)</span>
+        <span class="c1"># Return a new wrapper</span>
+        <span class="k">return</span> <span class="n">ToolboxTool</span><span class="p">(</span>
+            <span class="n">core_tool</span><span class="o">=</span><span class="n">new_core_tool</span><span class="p">,</span>
+            <span class="n">auth_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_auth_config</span><span class="p">,</span>
+            <span class="n">adk_token_getters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_adk_token_getters</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

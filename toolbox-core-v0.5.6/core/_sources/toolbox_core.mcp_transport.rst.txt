@@ -1,0 +1,21 @@
+toolbox\_core.mcp\_transport package
+====================================
+
+Submodules
+----------
+
+toolbox\_core.mcp\_transport.transport\_base module
+---------------------------------------------------
+
+.. automodule:: toolbox_core.mcp_transport.transport_base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: toolbox_core.mcp_transport
+   :members:
+   :undoc-members:
+   :show-inheritance:

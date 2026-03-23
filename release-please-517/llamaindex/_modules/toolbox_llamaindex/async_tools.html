@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toolbox_llamaindex.async_tools &mdash; Toolbox llamaindex (release-please-517) release-please-517 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=ee88504b"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/js/versions.js?v=f77c4c83"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Toolbox llamaindex (release-please-517)
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Toolbox llamaindex (release-please-517)</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">toolbox_llamaindex.async_tools</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for toolbox_llamaindex.async_tools</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2025 Google LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecated</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolMetadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.tools.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncBaseTool</span><span class="p">,</span> <span class="n">ToolOutput</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">toolbox_core.tool</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolboxTool</span> <span class="k">as</span> <span class="n">ToolboxCoreTool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">toolbox_core.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">params_to_pydantic_model</span>
+
+
+<span class="c1"># This class is an internal implementation detail and is not exposed to the</span>
+<span class="c1"># end-user. It should not be used directly by external code. Changes to this</span>
+<span class="c1"># class will not be considered breaking changes to the public API.</span>
+<div class="viewcode-block" id="AsyncToolboxTool">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AsyncToolboxTool</span><span class="p">(</span><span class="n">AsyncBaseTool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A subclass of LlamaIndex&#39;s AsyncBaseTool that supports features specific to</span>
+<span class="sd">    Toolbox, like bound parameters and authenticated tools.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">core_tool</span><span class="p">:</span> <span class="n">ToolboxCoreTool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an AsyncToolboxTool instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            core_tool: The underlying core async ToolboxTool instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Due to how pydantic works, we must initialize the underlying</span>
+        <span class="c1"># AsyncBaseTool class before assigning values to member variables.</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span> <span class="o">=</span> <span class="n">core_tool</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolMetadata</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No description found for the tool.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ToolMetadata</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+            <span class="n">fn_schema</span><span class="o">=</span><span class="n">params_to_pydantic_model</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="o">.</span><span class="n">_params</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="AsyncToolboxTool.call">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool.call">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolOutput</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Synchronous methods not supported by async tools.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsyncToolboxTool.acall">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool.acall">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">acall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolOutput</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The coroutine that invokes the tool with the given arguments.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs: The arguments to the tool.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A dictionary containing the parsed JSON response from the tool</span>
+<span class="sd">            invocation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">output_content</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ToolOutput</span><span class="p">(</span>
+            <span class="n">content</span><span class="o">=</span><span class="n">output_content</span><span class="p">,</span>
+            <span class="n">tool_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">raw_input</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="n">raw_output</span><span class="o">=</span><span class="n">output_content</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsyncToolboxTool.add_auth_token_getters">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token_getters">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_auth_token_getters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">auth_token_getters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AsyncToolboxTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers functions to retrieve ID tokens for the corresponding</span>
+<span class="sd">        authentication sources.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            auth_token_getters: A dictionary of authentication source names to</span>
+<span class="sd">                the functions that return corresponding ID token getters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new AsyncToolboxTool instance that is a deep copy of the current</span>
+<span class="sd">            instance, with added auth token getters.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If any of the provided auth parameters is already</span>
+<span class="sd">                registered.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_core_tool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="o">.</span><span class="n">add_auth_token_getters</span><span class="p">(</span><span class="n">auth_token_getters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AsyncToolboxTool</span><span class="p">(</span><span class="n">core_tool</span><span class="o">=</span><span class="n">new_core_tool</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsyncToolboxTool.add_auth_token_getter">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token_getter">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_auth_token_getter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">auth_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">get_id_token</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AsyncToolboxTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers a function to retrieve an ID token for a given authentication</span>
+<span class="sd">        source.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            auth_source: The name of the authentication source.</span>
+<span class="sd">            get_id_token: A function that returns the ID token.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new ToolboxTool instance that is a deep copy of the current</span>
+<span class="sd">            instance, with added auth token getter.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the provided auth parameter is already registered.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_auth_token_getters</span><span class="p">({</span><span class="n">auth_source</span><span class="p">:</span> <span class="n">get_id_token</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="AsyncToolboxTool.add_auth_tokens">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_tokens">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Please use `add_auth_token_getters` instead.&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_auth_tokens</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">auth_tokens</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AsyncToolboxTool&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_auth_token_getters</span><span class="p">(</span><span class="n">auth_tokens</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsyncToolboxTool.add_auth_token">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool.add_auth_token">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Please use `add_auth_token_getter` instead.&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_auth_token</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">auth_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">get_id_token</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AsyncToolboxTool&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_auth_token_getter</span><span class="p">(</span><span class="n">auth_source</span><span class="p">,</span> <span class="n">get_id_token</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsyncToolboxTool.bind_params">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool.bind_params">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bind_params</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bound_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AsyncToolboxTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers values or functions to retrieve the value for the</span>
+<span class="sd">        corresponding bound parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            bound_params: A dictionary of the bound parameter name to the</span>
+<span class="sd">                value or function of the bound value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new AsyncToolboxTool instance that is a deep copy of the current</span>
+<span class="sd">            instance, with added bound params.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If any of the provided bound params is already bound.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_core_tool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__core_tool</span><span class="o">.</span><span class="n">bind_params</span><span class="p">(</span><span class="n">bound_params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AsyncToolboxTool</span><span class="p">(</span><span class="n">core_tool</span><span class="o">=</span><span class="n">new_core_tool</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AsyncToolboxTool.bind_param">
+<a class="viewcode-back" href="../../toolbox_llamaindex.html#toolbox_llamaindex.async_tools.AsyncToolboxTool.bind_param">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bind_param</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">param_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AsyncToolboxTool&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers a value or a function to retrieve the value for a given bound</span>
+<span class="sd">        parameter.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param_name: The name of the bound parameter.</span>
+<span class="sd">            param_value: The value of the bound parameter, or a callable that</span>
+<span class="sd">                returns the value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new ToolboxTool instance that is a deep copy of the current</span>
+<span class="sd">            instance, with added bound param.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the provided bound param is already bound.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind_params</span><span class="p">({</span><span class="n">param_name</span><span class="p">:</span> <span class="n">param_value</span><span class="p">})</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toolbox_core.auth_methods &mdash; Toolbox core (release-please-491) release-please-491 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=60308064"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/js/versions.js?v=f77c4c83"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Toolbox core (release-please-491)
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Toolbox core (release-please-491)</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">toolbox_core.auth_methods</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for toolbox_core.auth_methods</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2025 Google LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides functions to obtain Google ID tokens for a specific audience.</span>
+
+<span class="sd">The tokens are returned as &quot;Bearer&quot; strings for direct use in HTTP Authorization</span>
+<span class="sd">headers. It uses a simple in-memory cache to avoid refetching on every call.</span>
+
+<span class="sd">Example Usage:</span>
+<span class="sd">from toolbox_core import auth_methods</span>
+
+<span class="sd">URL = &quot;https://toolbox-service-url&quot;</span>
+<span class="sd">async with ToolboxClient(</span>
+<span class="sd">    URL,</span>
+<span class="sd">    client_headers={&quot;Authorization&quot;: auth_methods.aget_google_id_token})</span>
+<span class="sd">as toolbox:</span>
+<span class="sd">    tools = await toolbox.load_toolset()</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Coroutine</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">google.auth</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.auth.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoogleAuthError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.auth.transport.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthorizedSession</span><span class="p">,</span> <span class="n">Request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.oauth2</span><span class="w"> </span><span class="kn">import</span> <span class="n">id_token</span>
+
+<span class="c1"># --- Constants ---</span>
+<span class="n">BEARER_TOKEN_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;Bearer &quot;</span>
+<span class="n">CACHE_REFRESH_MARGIN</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">DEFAULT_CLOCK_SKEW</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">_token_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;expires_at&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_token_valid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if the cached token exists and is not nearing expiry.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_token_cache</span><span class="p">[</span><span class="s2">&quot;token&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span>
+        <span class="n">_token_cache</span><span class="p">[</span><span class="s2">&quot;expires_at&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">CACHE_REFRESH_MARGIN</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_update_cache</span><span class="p">(</span><span class="n">new_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">clock_skew_in_seconds</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validates a new token, extracts its expiry, and updates the cache.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        new_token: The new JWT ID token string.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the token is invalid or its expiry cannot be determined.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># verify_oauth2_token not only decodes but also validates the token&#39;s</span>
+        <span class="c1"># signature and claims against Google&#39;s public keys.</span>
+        <span class="c1"># It&#39;s a synchronous, CPU-bound operation, safe for async contexts.</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">id_token</span><span class="o">.</span><span class="n">verify_oauth2_token</span><span class="p">(</span>
+            <span class="n">new_token</span><span class="p">,</span> <span class="n">Request</span><span class="p">(),</span> <span class="n">clock_skew_in_seconds</span><span class="o">=</span><span class="n">clock_skew_in_seconds</span>
+        <span class="p">)</span>
+
+        <span class="n">expiry_timestamp</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;exp&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">expiry_timestamp</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Token does not contain an &#39;exp&#39; claim.&quot;</span><span class="p">)</span>
+
+        <span class="n">_token_cache</span><span class="p">[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_token</span>
+        <span class="n">_token_cache</span><span class="p">[</span><span class="s2">&quot;expires_at&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
+            <span class="n">expiry_timestamp</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span>
+        <span class="p">)</span>
+
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">GoogleAuthError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># Clear cache on failure to prevent using a stale or invalid token</span>
+        <span class="n">_token_cache</span><span class="p">[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">_token_cache</span><span class="p">[</span><span class="s2">&quot;expires_at&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to validate and cache the new token: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+
+<div class="viewcode-block" id="get_google_token_from_aud">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.auth_methods.get_google_token_from_aud">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_google_token_from_aud</span><span class="p">(</span>
+    <span class="n">clock_skew_in_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">audience</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">clock_skew_in_seconds</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">clock_skew_in_seconds</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Illegal clock_skew_in_seconds value: </span><span class="si">{</span><span class="n">clock_skew_in_seconds</span><span class="si">}</span><span class="s2">. Must be between 0 and 60&quot;</span>
+            <span class="s2">&quot;, inclusive.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">_is_token_valid</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">BEARER_TOKEN_PREFIX</span> <span class="o">+</span> <span class="n">_token_cache</span><span class="p">[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Get local user credentials</span>
+    <span class="n">credentials</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">google</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">default</span><span class="p">()</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">AuthorizedSession</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+    <span class="n">credentials</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="s2">&quot;id_token&quot;</span><span class="p">):</span>
+        <span class="n">new_id_token</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="s2">&quot;id_token&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_id_token</span><span class="p">:</span>
+            <span class="n">_update_cache</span><span class="p">(</span><span class="n">new_id_token</span><span class="p">,</span> <span class="n">clock_skew_in_seconds</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">BEARER_TOKEN_PREFIX</span> <span class="o">+</span> <span class="n">new_id_token</span>
+
+    <span class="k">if</span> <span class="n">audience</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;You are not authenticating using User Credentials.&quot;</span>
+            <span class="s2">&quot; Please set the audience string to the Toolbox service URL to get the Google ID token.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Get credentials for Google Cloud environments or for service account key files</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">()</span>
+        <span class="n">new_token</span> <span class="o">=</span> <span class="n">id_token</span><span class="o">.</span><span class="n">fetch_id_token</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">audience</span><span class="p">)</span>
+        <span class="n">_update_cache</span><span class="p">(</span><span class="n">new_token</span><span class="p">,</span> <span class="n">clock_skew_in_seconds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">BEARER_TOKEN_PREFIX</span> <span class="o">+</span> <span class="n">_token_cache</span><span class="p">[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span>
+
+    <span class="k">except</span> <span class="n">GoogleAuthError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">GoogleAuthError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Failed to fetch Google ID token for audience &#39;</span><span class="si">{</span><span class="n">audience</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+
+
+
+<div class="viewcode-block" id="get_google_id_token">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.auth_methods.get_google_id_token">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_google_id_token</span><span class="p">(</span>
+    <span class="n">audience</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">clock_skew_in_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_CLOCK_SKEW</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a SYNC function that, when called, fetches a Google ID token.</span>
+<span class="sd">    This function uses Application Default Credentials for local systems</span>
+<span class="sd">    and standard google auth libraries for Google Cloud environments.</span>
+<span class="sd">    It caches the token in memory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        audience: The audience for the ID token (e.g., a service URL or client</span>
+<span class="sd">        ID).</span>
+<span class="sd">        clock_skew_in_seconds: The number of seconds to tolerate when checking the token.</span>
+<span class="sd">            Must be between 0-60. Defaults to 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A function that when executed returns string in the format &quot;Bearer &lt;google_id_token&gt;&quot;.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        GoogleAuthError: If fetching credentials or the token fails.</span>
+<span class="sd">        ValueError: If the fetched token is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_token_getter</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_google_token_from_aud</span><span class="p">(</span><span class="n">clock_skew_in_seconds</span><span class="p">,</span> <span class="n">audience</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_token_getter</span></div>
+
+
+
+<div class="viewcode-block" id="aget_google_id_token">
+<a class="viewcode-back" href="../../toolbox_core.html#toolbox_core.auth_methods.aget_google_id_token">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">aget_google_id_token</span><span class="p">(</span>
+    <span class="n">audience</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">clock_skew_in_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_CLOCK_SKEW</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Coroutine</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns an ASYNC function that, when called, fetches a Google ID token.</span>
+<span class="sd">    This function uses Application Default Credentials for local systems</span>
+<span class="sd">    and standard google auth libraries for Google Cloud environments.</span>
+<span class="sd">    It caches the token in memory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        audience: The audience for the ID token (e.g., a service URL or client</span>
+<span class="sd">        ID).</span>
+<span class="sd">        clock_skew_in_seconds: The number of seconds to tolerate when checking the token.</span>
+<span class="sd">            Must be between 0-60. Defaults to 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An async function that when executed returns string in the format &quot;Bearer &lt;google_id_token&gt;&quot;.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        GoogleAuthError: If fetching credentials or the token fails.</span>
+<span class="sd">        ValueError: If the fetched token is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_token_getter</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span>
+            <span class="n">get_google_token_from_aud</span><span class="p">,</span> <span class="n">clock_skew_in_seconds</span><span class="p">,</span> <span class="n">audience</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_token_getter</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

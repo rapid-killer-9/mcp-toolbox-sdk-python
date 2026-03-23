@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toolbox_adk.client &mdash; Toolbox adk (toolbox-llamaindex-v0.6.0) toolbox-llamaindex-v0.6.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=c6186a39"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/js/versions.js?v=f77c4c83"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Toolbox adk (toolbox-llamaindex-v0.6.0)
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Toolbox adk (toolbox-llamaindex-v0.6.0)</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">toolbox_adk.client</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for toolbox_adk.client</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2026 Google LLC</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextvars</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextVar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">google.auth</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">toolbox_core</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_engine</span><span class="p">,</span> <span class="n">transport</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.auth.transport</span><span class="w"> </span><span class="kn">import</span> <span class="n">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.oauth2</span><span class="w"> </span><span class="kn">import</span> <span class="n">id_token</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.credentials</span><span class="w"> </span><span class="kn">import</span> <span class="n">CredentialConfig</span><span class="p">,</span> <span class="n">CredentialType</span>
+
+<span class="n">USER_TOKEN_CONTEXT_VAR</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span>
+    <span class="s2">&quot;toolbox_user_token&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="ToolboxClient">
+<a class="viewcode-back" href="../../toolbox_adk.html#toolbox_adk.client.ToolboxClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolboxClient</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wraps toolbox_core.ToolboxClient to provide ADK-native authentication strategy support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">server_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">credentials</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CredentialConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">additional_headers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            server_url: The URL of the Toolbox server.</span>
+<span class="sd">            credentials: The CredentialConfig object (from CredentialStrategy).</span>
+<span class="sd">            additional_headers: Dictionary of headers (static or dynamic callables).</span>
+<span class="sd">            **kwargs: Additional arguments passed to toolbox_core.ToolboxClient.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_core_client_headers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span> <span class="o">=</span> <span class="n">credentials</span>
+
+        <span class="c1"># Add static additional headers</span>
+        <span class="k">if</span> <span class="n">additional_headers</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">additional_headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_core_client_headers</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">if</span> <span class="n">credentials</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_configure_auth</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">toolbox_core</span><span class="o">.</span><span class="n">ToolboxClient</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">server_url</span><span class="p">,</span>
+            <span class="n">client_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_client_headers</span><span class="p">,</span>
+            <span class="n">client_name</span><span class="o">=</span><span class="s2">&quot;toolbox-adk-python&quot;</span><span class="p">,</span>
+            <span class="n">client_version</span><span class="o">=</span><span class="n">__version__</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_configure_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds</span><span class="p">:</span> <span class="n">CredentialConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">creds</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">CredentialType</span><span class="o">.</span><span class="n">TOOLBOX_IDENTITY</span><span class="p">:</span>
+            <span class="c1"># No auth headers needed</span>
+            <span class="k">pass</span>
+
+        <span class="k">elif</span> <span class="n">creds</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">CredentialType</span><span class="o">.</span><span class="n">WORKLOAD_IDENTITY</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">target_audience</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;target_audience is required for WORKLOAD_IDENTITY&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Create an async capable token getter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_core_client_headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_adc_token_getter</span><span class="p">(</span>
+                <span class="n">creds</span><span class="o">.</span><span class="n">target_audience</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">creds</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">CredentialType</span><span class="o">.</span><span class="n">MANUAL_TOKEN</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">token</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;token is required for MANUAL_TOKEN&quot;</span><span class="p">)</span>
+            <span class="n">scheme</span> <span class="o">=</span> <span class="n">creds</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">or</span> <span class="s2">&quot;Bearer&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_core_client_headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">creds</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">elif</span> <span class="n">creds</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">CredentialType</span><span class="o">.</span><span class="n">MANUAL_CREDS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">credentials</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;credentials object is required for MANUAL_CREDS&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Adapter for google-auth credentials object to callable</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_core_client_headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_create_creds_token_getter</span><span class="p">(</span><span class="n">creds</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">creds</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">CredentialType</span><span class="o">.</span><span class="n">USER_IDENTITY</span><span class="p">:</span>
+            <span class="c1"># For USER_IDENTITY (3LO), the *Tool* handles the interactive flow at runtime.</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">get_user_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">USER_TOKEN_CONTEXT_VAR</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">header_name</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="s2">&quot;header_name&quot;</span><span class="p">,</span> <span class="s2">&quot;Authorization&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;Authorization&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_core_client_headers</span><span class="p">[</span><span class="n">header_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_user_token</span>
+
+        <span class="k">elif</span> <span class="n">creds</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">CredentialType</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">header_name</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;api_key and header_name are required for API_KEY&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_core_client_headers</span><span class="p">[</span><span class="n">creds</span><span class="o">.</span><span class="n">header_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">creds</span><span class="o">.</span><span class="n">api_key</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_adc_token_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audience</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a callable that fetches a fresh ID token using ADC.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Try fetching ID token directly (e.g. on Cloud Run/GKE with metadata server)</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">id_token</span><span class="o">.</span><span class="n">fetch_id_token</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">audience</span><span class="p">)</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="c1"># Fallback to default credentials (e.g. local gcloud auth)</span>
+                <span class="n">creds</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">google</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">default</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+                    <span class="n">creds</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="s2">&quot;id_token&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">id_token</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">creds</span><span class="o">.</span><span class="n">id_token</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                <span class="n">curr_token</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">curr_token</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">curr_token</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">get_token</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_creds_token_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">credentials</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">get_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">credentials</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+                <span class="n">credentials</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">credentials</span><span class="o">.</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">get_token</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">credential_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CredentialConfig</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span>
+
+<div class="viewcode-block" id="ToolboxClient.load_toolset">
+<a class="viewcode-back" href="../../toolbox_adk.html#toolbox_adk.client.ToolboxClient.load_toolset">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">load_toolset</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">toolset_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">load_toolset</span><span class="p">(</span><span class="n">toolset_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ToolboxClient.load_tool">
+<a class="viewcode-back" href="../../toolbox_adk.html#toolbox_adk.client.ToolboxClient.load_tool">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">load_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">load_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ToolboxClient.close">
+<a class="viewcode-back" href="../../toolbox_adk.html#toolbox_adk.client.ToolboxClient.close">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
