@@ -19,16 +19,27 @@ mkdir -p "$CONTENT_DIR/docs"
 cat <<'EOT' > "$CONTENT_DIR/_index.md"
 ---
 title: "MCP Toolbox Python SDK"
-type: docs
----
-# Welcome to the MCP Toolbox Python SDK
-This is the official Python SDK for the MCP Toolbox. Use the sidebar to navigate the technical API reference for each package.
+layout: home
+blocks:
+- template: hero
+  title: MCP Toolbox Python SDK
+  content: |
+    Welcome to the official Python SDK for the MCP Toolbox.
+    This site provides the technical API reference for `toolbox-core`, `toolbox-adk`, and integration packages.
 
-## Installation
-To install the SDK or explore more, please visit the official Python SDK Repository on GitHub:
-```bash
-https://github.com/googleapis/mcp-toolbox-sdk-python/
-```
+    [Get Started with the Python SDK](https://github.com/googleapis/mcp-toolbox-sdk-python)
+  cta:
+    text: Browse API Reference
+    url: /docs/
+- template: section
+  content: |
+    ## Packages
+    
+    *   **[Core](docs/Core)**: Authentication, transport, and base protocols.
+    *   **[ADK](docs/ADK)**: Agent Development Kit tools.
+    *   **[LangChain](docs/LangChain)**: LangChain integration.
+    *   **[LlamaIndex](docs/LlamaIndex)**: LlamaIndex integration.
+---
 EOT
 
 # Generate Packages Index
