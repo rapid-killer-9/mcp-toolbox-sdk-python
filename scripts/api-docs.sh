@@ -68,7 +68,15 @@ cd "$DOCS_DIR"
 
 # Ensure Hugo modules are up to date
 if command -v hugo &> /dev/null; then
+    echo "Resolving Hugo modules..."
+    # Clean and sync Go modules
+    if command -v go &> /dev/null; then
+        go mod tidy
+    fi
+    # Fetch Hugo modules
     hugo mod get
+    
+    echo "Building Hugo site..."
     hugo --minify --baseURL "${BASE_URL}" --destination "public"
 else
     echo "Hugo not found. Skipping site build."
