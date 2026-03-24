@@ -1,0 +1,50 @@
+baseURL = "https://rapid-killer-9.github.io/mcp-toolbox-sdk-python/"
+title = "MCP Toolbox Python API"
+
+[params]
+  offlineSearch = true
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.highlight]
+  noClasses = false
+  style = "tango"
+
+[params.ui]
+  navbar_logo = true
+  sidebar_menu_foldable = true
+  ul_show = 2
+  breadcrumb_disable = true
+  sidebar_menu_compact = false
+  showLightDarkModeMenu = true
+
+[[menu.main]]
+  name = "GenAI Toolbox Docsite"
+  url = "https://googleapis.github.io/genai-toolbox/getting-started/introduction/"
+  weight = 10
+
+[[menu.main]]
+  name = "GitHub"
+  url = "https://github.com/googleapis/genai-toolbox"
+  weight = 20
+  pre = "<i class='fab fa-github'></i>"
+
+[outputFormats]
+  [outputFormats.LLMS]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    root = true
+  [outputFormats.LLMS-FULL]
+    mediaType = "text/plain"
+    baseName = "llms-full"
+    isPlainText = true
+    root = true
+
+[outputs]
+  home = ["HTML", "RSS", "LLMS", "LLMS-FULL", "JSON"]
+
+[module]
+  [[module.imports]]
+    path = "github.com/google/docsy"

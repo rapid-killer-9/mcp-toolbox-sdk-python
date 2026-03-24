@@ -1,0 +1,56 @@
+name: "API Reference Deployment"
+on:
+  push:
+    branches: [ 'main', 'api-ref' ]
+    tags: [ 'v*' ]
+  workflow_dispatch: 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydoc-markdown
+          # Install packages in editable mode to ensure they are importable
+          pip install -e packages/toolbox-core
+          pip install -e packages/toolbox-adk
+          pip install -e packages/toolbox-langchain
+          pip install -e packages/toolbox-llamaindex
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.152.2'
+          extended: true
+
+      - name: Install PostCSS Dependencies
+        run: |
+          cd docs
+          npm install postcss postcss-cli autoprefixer
+
+      - name: Build API Reference
+        run: |
+          chmod +x scripts/api-docs.sh
+          ./scripts/api-docs.sh
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/public
+          keep_files: true
